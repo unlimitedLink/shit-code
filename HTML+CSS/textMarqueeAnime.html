@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 文字跑马灯效果 -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #app {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            align-items: center;
+            background-color: #000;
+        }
+
+        #app span {
+                font-size: 50px;
+                font-weight: bold;
+                color: #fff;
+                animation: TextMarquee 1s infinite ease-in-out alternate;
+        }
+
+        #app span:nth-child(n) {
+            animation-delay: calc((var(--i) - 1) * .25s);
+        }
+
+        #app span:nth-child(1) {
+            --i: 1;
+        }
+
+        #app span:nth-child(2) {
+            --i: 2;
+        }
+
+        #app span:nth-child(3) {
+            --i: 3;
+        }
+
+        #app span:nth-child(4) {
+            --i: 4;
+        }
+
+        #app span:nth-child(5) {
+            --i: 5;
+        }
+
+        @keyframes TextMarquee {
+            to {
+                color: #ff0266;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <span>W</span>
+        <span>H</span>
+        <span>I</span>
+        <span>L</span>
+        <span>E</span>
+    </div>
+</body>
+
+</html>
