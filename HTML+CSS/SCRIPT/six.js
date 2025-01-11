@@ -1,0 +1,1 @@
+console.log("this is six.js file");

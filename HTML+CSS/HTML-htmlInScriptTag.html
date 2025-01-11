@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- 当使用 <link rel="preload"> 时，as 属性是必须的。as 属性告诉浏览器资源的类型（scritp，image，fetch），从而可以优化其加载行为。 -->
+    <link rel="preload" as="script" href="./SCRIPT/five.js" >
+    <!-- 
+        注意点1： 在过去中Script标签会放在head标签里，但是这样的话会在JS文件加载完才会进行页面的渲染，白屏时间过长，用户体验不好
+        为了解决上面的这种问题，现代的页面都是把Script标签放在body标签中的后面，这样在页面在处理JavaScript代码时回先加载完页面
+    -->
+</head>
+<body>
+    
+<!-- 用法1 行内式（加载执行script标签中的代码） -->
+<script>
+    let welcomeToPageMessage = "hello world!!!";
+    console.log(welcomeToPageMessage);
+</script>
+
+<!-- 用法2 外链式（加载外部脚本） -->
+ <script src="../index.js"></script>
+
+ <!-- 推迟执行脚本 -->
+  <!-- 
+    HTML4.0.1为script标签定义了一个defer属性
+    作用：立即下载src属性指向的文件，页面解析完后(DOMContentLoaded 事件之前执行)进行运行
+    注意：
+        1. 在实际当中，推迟执行的脚本不一定总会按顺序执行或者在 DOMContentLoaded事件之前执行，因此最好只包含一个这样的脚本。
+        2. defer属性只对外部脚本有效
+        3. 对于 XHTML 文档，指定 defer属性时应该写成 defer="defer"
+  -->
+    <script src="./SCRIPT/one.js" defer></script>
+    <script src="./SCRIPT/two.js" defer></script>
+
+ <!-- 异步执行脚本 -->
+ <!-- 
+    HTML5 为<script>元素定义了 async 属性
+    作用：立即下载src属性指向的文件，异步脚本保证会在页面的 load 事件前执行，但可能会在 DOMContentLoaded之前或之后
+    注意：
+        1. 对于 XHTML 文档，指定 async属性时应该写成 async="async"
+ -->
+
+ <script src="./SCRIPT/three.js" async></script>
+ <script src="./SCRIPT/four.js" async></script>
+
+ <!-- 动态加载脚本 -->
+  <script>
+    let sc = document.createElement("script")
+    sc.src = "./SCRIPT/five.js"
+    /*
+        注意： 
+        1.默认情况下，以这种方式创建的<script>元素是以异步方式加载的，相当于添加了 async 属性，但是并不是所有的浏览器都支持async属性，
+        因此，如果要统一动态脚本的加载行为，可以明确将其设置为同步加载
+        2.以这种方式获取的资源对浏览器预加载器是不可见的。这会严重影响它们在资源获取队列中的优先级。
+        根据应用程序的工作方式以及怎么使用，这种方式可能会严重影响性能。
+        要想让预加载器知道这些动态请求文件的存在，可以在文档头部显式声明它们(本文中第七行)
+    */ 
+    sc.async = false;
+    document.body.appendChild(sc)
+  </script>
+
+ <!-- noScript元素 -->
+  <!-- 
+    <noscript>元素可以包含任何可以出现在<body>中的 HTML 元素，<script>除外。
+    在下列两种情况下，浏览器将显示（渲染）包含在<noscript>中的内容。
+    1.浏览器不支持脚本
+    2.浏览器对脚本的支持被关闭
+  -->
+    <noscript>
+        JavaScript  Closed
+    </noscript>
+
+
+    <!-- 
+    补充：
+    1.在不使用defer，async等属性的情况下，所有scritp元素会按照所在的位置依次解析 
+    2.要包含外部 JavaScript 文件，必须将 src 属性设置为要包含文件的 URL。文件可以跟网页在同一台服务器上，也可以位于完全不同的域。
+    3.script元素中如果存在JS代码，又使用src指向了某个JS文件，那么script中的代码将不会执行
+    -->
+</body>
+</html>
