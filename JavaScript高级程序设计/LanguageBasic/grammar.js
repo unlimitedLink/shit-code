@@ -439,6 +439,13 @@ console.log(num10);
 // 为什么这里没有提到八进制的parseInt转换呢?
 // 是因为在ES5规范中不在允许parseInt函数对八进制数值进行解析了
 
+// 4.如果传递的进制数无效,不在(2-36)的进制范围内
+// 为什么最多是36进制呢?10个数字和26个字母
+console.log(parseInt("abcd",36)); // 481261
+// 无效进制的情况会返回NaN
+console.log(parseInt("1",1)); //NaN
+// 当然指定进制解析不了的数值也会返回NaN
+console.log(parseInt("3",2)); //NaN
 
 // parseFloat()
 // 在需要得到浮点数时可以优先使用 parseFloat()函数
