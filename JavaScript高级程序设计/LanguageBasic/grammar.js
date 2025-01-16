@@ -468,4 +468,204 @@ console.log(parseFloat('000123')); //123
 
 
 
+// String
+// String(字符串)类型表示零或多个十六位unicode字符序列
+// 字符串可以使用'或者"或者`标示
+let str1 = "hello world"
+let str2 = 'hello world'
+let str3 = `hello world`
+// 在es中表示字符串的引号没有区别,不过要注意以什么引号开头就以什么引号结束
+// let str4 = 'hello world" // 错误示范 这将会导致语法错误
+
+// 字符字面量
+// 字符串数据类型包含一些字符字面量，用于表示非打印字符或有其他用途的字符
+console.log("hello\nworld"); //换行
+// 输出结果
+// hello
+// world
+console.log("hello\tworld"); //制表
+console.log("hello\bworld"); //退格
+console.log("hello\rworld"); //回车
+console.log("hello\nworld"); //换行
+console.log("hello\fworld"); //换页
+console.log("hello\\world"); //反斜杠 
+console.log("hello\'world\'"); //单引号（'），在字符串以单引号标示时使用,双引号,反引号同理
+console.log("hello\"world\""); 
+console.log("hello\`world\`");
+console.log("\x41"); // 以十六进制编码 nn表示的字符（其中 n是十六进制数字 0~F） ，例如\x41等于"A"
+console.log("\u03a3"); // 以十六进制编码 nnnn表示的 Unicode 字符（其中 n是十六进制数字 0~F） ，例如\u03a3等于希腊字符"Σ"
+
+// 这些字符字面量可以出现在字符串中的任意位置，且可以作为单个字符被解释
+// 下面这个例子虽然包含6个字符长的转义序列,但是因为转义序列表示一个字符,所以这个字符串的长度也只有9个字符长
+let str5 = "希腊字符Σ: \u03a3.";
+// 用length属性可以获取字符串的长度
+console.log(str5.length);
+// 注意:如果字符串中包含双字节字符，那么 length属性返回的值可能不是准确的字符数(后续会讲解到)
+
+// 字符串的特点
+// ES中的字符串是不可变的，意思是一旦创建，它们的值就不能变了。
+// 要修改某个变量中的字符串值，必须先销毁原始的字符串，然后将包含新值的另一个字符串保存到该变量
+// 下方的代码是如何进行操作的呢?
+// 首先会分配一个足够容纳10个字符的空间,然后再将'Java'和'Script'进行填充,最后再把原始的'Java'和'Script'进行销毁
+// 所有的处理都是在后台中发生的,这也就是为什么在早期的浏览器(firefox1.0和ie6.0之前的版本)中拼接字符串会非常慢的原因
+// 这些浏览器在后来的版本中都有针对性地解决了这个问题
+let lang = 'Java'
+lang = lang + 'Script'
+
+// 转换字符串
+// 有两种方式把一个值转换为字符串。首先是使用几乎所有值都有的 toString()方法
+// 这个方法唯一的用途就是返回当前值的字符串等价物
+let age = 11;
+let ageAsString = age.toString(); // 字符串"11"
+let found = true;
+let foundAsString = found.toString(); // 字符串"true"
+// toString()方法可见于数值、布尔值、对象和字符串值。（没错，字符串值也有 toString()方法，该方法只是简单地返回自身的一个副本。）
+// null和 undefined值没有 toString()方法
+// 大多数情况下,toString函数不接受任何参数
+// 如果是数值在调用这个函数时,toString可以接收一个底数参数,即以什么底数(进制)来输出数值的字符串表示
+let numToString = 10;
+console.log(numToString.toString()); // "10"
+console.log(numToString.toString(2)); // "1010" 二进制
+console.log(numToString.toString(8)); // "12" 八进制
+console.log(numToString.toString(10)); // "10"  十进制
+console.log(numToString.toString(16)); // "a" 十六进制
+console.log(numToString.toString(36)); // "a" 三十六进制
+// 注意，默认情况下以十进制去解析数值
+// 如果你不确定一个值是否是null或者undefind,可以用String转型函数
+// String()函数遵循如下规则
+// 1.如果值有 toString()方法，则调用该方法（不传参数）并返回结果
+// 2.null返回 "null"
+// 3.undefind "undefind"
+console.log(String(null)); // "null" null和undefind因为没有toString方法所以就直接返回了这个值的字面量文本
+console.log(String(undefined)); // "undefind"
+console.log(String(true)); // "true"
+console.log(String(10)); // "10"
+console.log(String(10.10)); // "10.1"
+// 还有一种方式比较特殊,用加号操作符给一个值加上一个空字符串""也可以将其转换为字符串
+console.log(1 + ""); // "1"
+console.log(undefined + ""); // "undefind"
+
+// 模版字面量
+// ES6中新增了使用模板字面量定义字符串的能力
+// 与使用单,双引号不同模版字面量可以保留换行字符,可以跨行定义字符串
+const fuckMessage = "Love\nYou"
+console.log(fuckMessage);
+const loveMessage = `Love
+You`
+console.log(loveMessage);
+console.log(fuckMessage  === loveMessage); // true
+
+// 模版字面量在定义模版的时候特别好用
+let grammarTestTemplate = `
+    <h1>
+    你好
+    </h1>
+`
+document.querySelector("#h1").innerHTML = grammarTestTemplate
+// 注意:模版字面量会保持反应号内部的空格,可能所看到的字符串长度与实际不同
+let notLengthString = `Hello
+    World`
+console.log(`notLengthString`,notLengthString.length); // 15 实际是只有10个字符 但是因为保留空格的原因其实是15个
+// 下方这个模版字面量以一个换行符开头
+let specialHeadString = `
+    Hello
+    World
+`
+console.log(specialHeadString[0] === '\n') // true
+
+// 字符串插值
+// 模板字面量最常用的一个特性是支持字符串插值，也就是可以在一个连续定义中插入一个或多个值
+// 技术上讲，模板字面量不是字符串，而是一种特殊的 JavaScript 句法表达式，只不过求值后得到的是字符串
+// 模板字面量在定义时立即求值并转换为字符串实例，任何插入的变量也会从它们最接近的作用域中取值
+// 字符串插值通过在${}中使用一个 JavaScript 表达式实现
+let calcString = `1+2=${1+2}` // 1+2=3
+console.log(calcString);
+let myName1 = "ulk"
+console.log(`Hello,My name is ${myName1}`); // Hello,My name is ulk
+// 以前的字符串插值是这样实现的
+console.log("Hello,My name is " + myName1);// Hello,My name is ulk
+
+// 所有插入的值都会使用 toString()强制转型为字符串，而且任何 JavaScript 表达式都可以用于插值
+//  将表达式转换为字符串时会调用
+let fo = {toString: ()=> "Hello World!"}
+console.log(`${fo}`);
+// 此外，模板也可以插入自己之前的值：
+let value1 = '';
+function append() {
+value1 = `${value1}abc`
+console.log(value1);
+}
+append(); // abc
+append(); // abcabc
+append(); // abcabcabc
+
+
+// 模板字面量标签函数
+// 模板字面量也支持定义标签函数，而通过标签函数可以自定义插值行为。
+// 标签函数会接收被插值记号(${})分隔后的模板和对每个表达式求值的结果
+let a = 6;
+let b = 9;
+// 标签函数本身是一个常规函数，通过前缀到模板字面量来应用自定义行为
+function simpleTag(strings, aValExpression, bValExpression, sumExpression) {
+    // 标签函数接收到的参数依次是原始字符串数组和对每个表达式求值的结果。
+    console.log(strings);
+    console.log(aValExpression);
+    console.log(bValExpression);
+    console.log(sumExpression);
+    return 'foobar';
+}
+let untaggedResult = `${ a } + ${ b } = ${ a + b }`;
+let taggedResult = simpleTag`${ a } + ${ b } = ${ a + b }`;
+// ["", " + ", " = ", ""] //  原始字符串
+// 6
+// 9
+// 15
+console.log(untaggedResult); // "6 + 9 = 15"
+// 这个函数的返回值是对模板字面量求值得到的字符串。
+console.log(taggedResult); // "foobar"
+// 对于有 n 个插值的模板字面量，传给标签函数的表达式参数的个数始终是 n
+// 而传给标签函数的第一个参数所包含的字符串个数则始终是 n+1。
+// 因此，如果你想把这些字符串和对表达式求值的结果拼接起来作为默认返回的字符串，可以这样做
+function simpleTag1(strings, ...pms) {
+    console.log("strings[0]",strings[0]); // 第一个插值记号前的内容如果没有返回的就是一个没有任何值的字符串""
+    console.log("strings.end",strings[strings.length - 1]); // 最后一个插值记号同理
+
+    return `${strings[0]}${pms.map((item,index)=>{
+        return item + strings[index + 1]
+    }).join('')}`
+}
+let taggedResult1 = simpleTag1`${ a } + ${ b } = ${ a + b }`;
+console.log(taggedResult1); // 6 + 9 = 15
+
+
+// 原始字符串
+// 使用模板字面量也可以直接获取原始的模板字面量内容（如换行符或 Unicode 字符），而不是被转换后的字符表示
+// String.raw标签函数
+console.log(`\u00A9`); // ©
+console.log(String.raw`\u00A9`); // \u00A9
+console.log(String.raw`Hello\nWorld`); // Hello\nWorld
+// 对实际的换行符来说是不行的
+// 它们不会被转换成转义序列的形式
+console.log(String.raw`Hello
+World`);
+/*
+    Hello
+    World
+*/ 
+// 获取模版字面量中的每一个原始字符串
+// 需要通过标签函数的第一个参数，即字符串数组的.raw属性取得每个字符串的原始内容
+let simpleTag2 = (strings) =>{
+    console.log('原始字符串转义后');    
+    strings.forEach(item=>{
+        console.log(item);
+    })
+
+    console.log('原始字符串转义前');
+    strings.raw.forEach(item=>{
+        console.log(item);
+    })
+}
+
+let simpleTag2Value = simpleTag2`\u00A9${'-2008-'}\n`
+console.log(simpleTag2Value); // undefind simpleTag2没有返回任何内容
 
